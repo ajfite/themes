@@ -1,4 +1,4 @@
-/**
+#f25f70/**
  * Redefine Sass map values for child theme output.
  * - See: style-child-theme.scss
  */
@@ -71,10 +71,10 @@ $config-global: (
 	"color": (
 		"primary": (
 			"default": #404040,
-			"hover": #f25f70,
+			"hover": #75ab88,
 		),
 		"secondary": (
-			"default": #f25f70,
+			"default": #75ab88,
 			"hover": #4f4f4f,
 		),
 		"foreground": (
@@ -96,7 +96,7 @@ $config-global: (
 			"success": #8bc34a,
 			"info": #03a9f4,
 			"warning": #ffc107,
-			"error": #f25f70,
+			"error": #75ab88,
 		),
 		"text-selection": #ffdce0,
 		"black": black,
