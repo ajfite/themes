@@ -5,7 +5,7 @@
 <?php
 	/* translators: 1: WordPress link, 2: WordPress. */
 	printf(
-		'<a href="%1$s" class="imprint">&copy; 2021 %2$s &amp; Claire Phillips</a>.',
+		'<a href="%1$s" class="imprint">&copy; Copyright 2021 %2$s &amp; Claire Phillips</a>.',
 		esc_url( __( 'https://ajfite.com', 'varia' ) ),
 		'AJ Fite'
 	);
