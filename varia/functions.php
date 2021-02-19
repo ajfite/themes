@@ -9,6 +9,18 @@
  * @since 1.0.0
  */
 
+if ( ! function_exists( 'varia_default_colors' ) ) {
+	function varia_default_colors() {
+		return array(
+			'background' => '#FFFFFF', //bg
+			'foreground' => '#444444', //txt
+			'primary'    => '#0000ff', //link
+			'secondary'  => '#ff0000', //fg1
+			'tertiary'   => null, //fg2
+		);
+	}
+}
+
 /**
  * Varia only works in WordPress 4.7 or later.
  */
@@ -18,6 +30,7 @@ if ( version_compare( $GLOBALS['wp_version'], '4.7', '<' ) ) {
 }
 
 if ( ! function_exists( 'varia_setup' ) ) :
+
 	/**
 	 * Sets up theme defaults and registers support for various WordPress features.
 	 *
@@ -145,37 +158,52 @@ if ( ! function_exists( 'varia_setup' ) ) :
 		 *
 		 * - if the customizer color is empty, use the default
 		 */
-		$colors_array = get_theme_mod( 'colors_manager' ); // color annotations array()
-		$primary      = ! empty( $colors_array ) ? $colors_array['colors']['link'] : '#0000FF'; // $config-global--color-primary-default;
-		$secondary    = ! empty( $colors_array ) ? $colors_array['colors']['fg1'] : '#FF0000';  // $config-global--color-secondary-default;
-		$foreground   = ! empty( $colors_array ) ? $colors_array['colors']['txt'] : '#444444';  // $config-global--color-foreground-default;
-		$background   = ! empty( $colors_array ) ? $colors_array['colors']['bg'] : '#FFFFFF';   // $config-global--color-background-default;
+		$colors_array   = get_theme_mod( 'colors_manager' ); // color annotations array()
+		$default_colors = varia_default_colors();
+
+		$primary    = is_array( $colors_array ) && array_key_exists( 'colors', $colors_array ) ? $colors_array['colors']['link'] : $default_colors['primary']; // $config-global--color-primary-default;
+		$secondary  = is_array( $colors_array ) && array_key_exists( 'colors', $colors_array ) ? $colors_array['colors']['fg1'] : $default_colors['secondary'];  // $config-global--color-secondary-default;
+		$tertiary   = is_array( $colors_array ) && array_key_exists( 'colors', $colors_array ) ? $colors_array['colors']['fg2'] : $default_colors['tertiary'];   // $config-global--color-tertiary-default;
+		$foreground = is_array( $colors_array ) && array_key_exists( 'colors', $colors_array ) ? $colors_array['colors']['txt'] : $default_colors['foreground'];  // $config-global--color-foreground-default;
+		$background = is_array( $colors_array ) && array_key_exists( 'colors', $colors_array ) ? $colors_array['colors']['bg'] : $default_colors['background'];   // $config-global--color-background-default;
+
+		$editor_colors_array = array(
+			array(
+				'name'  => __( 'Primary', 'varia' ),
+				'slug'  => 'primary',
+				'color' => $primary,
+			),
+			array(
+				'name'  => __( 'Secondary', 'varia' ),
+				'slug'  => 'secondary',
+				'color' => $secondary,
+			),
+			array(
+				'name'  => __( 'Foreground', 'varia' ),
+				'slug'  => 'foreground',
+				'color' => $foreground,
+			),
+			array(
+				'name'  => __( 'Background', 'varia' ),
+				'slug'  => 'background',
+				'color' => $background,
+			),
+		);
+
+		if ( $tertiary ) {
+			$editor_colors_array[] = array(
+				'name'  => __( 'Tertiary', 'varia' ),
+				'slug'  => 'tertiary',
+				'color' => $tertiary,
+			);
+		}
+
+		$editor_colors_array = apply_filters( 'varia_editor_color_palette', $editor_colors_array );
 
 		// Editor color palette.
 		add_theme_support(
 			'editor-color-palette',
-			array(
-				array(
-					'name'  => __( 'Primary', 'varia' ),
-					'slug'  => 'primary',
-					'color' => $primary,
-				),
-				array(
-					'name'  => __( 'Secondary', 'varia' ),
-					'slug'  => 'secondary',
-					'color' => $secondary,
-				),
-				array(
-					'name'  => __( 'Foreground', 'varia' ),
-					'slug'  => 'foreground',
-					'color' => $foreground,
-				),
-				array(
-					'name'  => __( 'Background', 'varia' ),
-					'slug'  => 'background',
-					'color' => $background,
-				),
-			)
+			$editor_colors_array,
 		);
 
 		// Add support for responsive embedded content.
@@ -263,11 +291,13 @@ function varia_scripts() {
 	if ( $is_IE ) {
 		// If IE 11 or below, use a ponyfill to add CSS Variable support
 		wp_register_script( 'css-vars-ponyfill', get_template_directory_uri() . '/js/css-vars-ponyfill2.js' );
-		wp_enqueue_script( 'ie11-fix',
+		wp_enqueue_script(
+			'ie11-fix',
 			get_template_directory_uri() . '/js/ie11-fix.js',
 			array( 'css-vars-ponyfill' ),
-			'1.0'
+			wp_get_theme()->get( 'Version' )
 		);
+		wp_enqueue_style( 'varia-ie-styles', get_template_directory_uri() . '/ie.css', array(), wp_get_theme()->get( 'Version' ) );
 	}
 
 }
@@ -414,8 +444,8 @@ function varia_customize_header_footer( $wp_customize ) {
 	$wp_customize->add_control(
 		'hide_site_header',
 		array(
-			'label'       => esc_html__( 'Hide the Site Header', 'seedlet' ),
-			'description' => esc_html__( 'Check to hide the site header, if your homepage is set to display a static page.', 'seedlet' ),
+			'label'       => esc_html__( 'Hide the Site Header', 'varia' ),
+			'description' => esc_html__( 'Check to hide the site header, if your homepage is set to display a static page.', 'varia' ),
 			'section'     => 'static_front_page',
 			'priority'    => 10,
 			'type'        => 'checkbox',
@@ -438,8 +468,8 @@ function varia_customize_header_footer( $wp_customize ) {
 	$wp_customize->add_control(
 		'hide_site_footer',
 		array(
-			'label'       => esc_html__( 'Hide the Site Footer Menu & Widgets', 'seedlet' ),
-			'description' => esc_html__( 'Check to hide the site menu & widgets in the footer, if your homepage is set to display a static page.', 'seedlet' ),
+			'label'       => esc_html__( 'Hide the Site Footer Menu & Widgets', 'varia' ),
+			'description' => esc_html__( 'Check to hide the site menu & widgets in the footer, if your homepage is set to display a static page.', 'varia' ),
 			'section'     => 'static_front_page',
 			'priority'    => 10,
 			'type'        => 'checkbox',
@@ -449,10 +479,46 @@ function varia_customize_header_footer( $wp_customize ) {
 }
 add_action( 'customize_register', 'varia_customize_header_footer' );
 
-/*
- * Color palette related utilities
+
+/**
+ * Add ability to show or hide featured images on pages
  */
-require get_template_directory() . '/inc/color-utils.php';
+function varia_customize_content_options( $wp_customize ) {
+
+	// Add Content section.
+	$wp_customize->add_section(
+		'jetpack_content_options',
+		array(
+			'title'    => esc_html__( 'Content Options', 'varia' ),
+			'priority' => 100,
+		)
+	);
+
+	// Add visibility setting for featured images on pages
+	$wp_customize->add_setting(
+		'show_featured_image_on_pages',
+		array(
+			'default'           => false,
+			'type'              => 'theme_mod',
+			'transport'         => 'refresh',
+			'sanitize_callback' => 'varia_sanitize_checkbox',
+		)
+	);
+
+	// Add control for the visibility of featured images on pages
+	$wp_customize->add_control(
+		'show_featured_image_on_pages',
+		array(
+			'label'       => esc_html__( 'Show the featured image on pages', 'varia' ),
+			'description' => esc_html__( 'Check to display a featured image at the top of your pages when they have one.', 'varia' ),
+			'section'     => 'jetpack_content_options',
+			'priority'    => 10,
+			'type'        => 'checkbox',
+			'settings'    => 'show_featured_image_on_pages',
+		)
+	);
+}
+add_action( 'customize_register', 'varia_customize_content_options' );
 
 /**
  * SVG Icons class.

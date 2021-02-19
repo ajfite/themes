@@ -18,6 +18,7 @@ if ( ! function_exists( 'blank_canvas_setup' ) ) :
 	 * as indicating support for post thumbnails.
 	 */
 	function blank_canvas_setup() {
+
 		// Add support for editor styles.
 		add_theme_support( 'editor-styles' );
 
@@ -65,6 +66,20 @@ if ( ! function_exists( 'blank_canvas_setup' ) ) :
 	}
 endif;
 add_action( 'after_setup_theme', 'blank_canvas_setup', 11 );
+
+/**
+ * Filter the colors for Blank Canvas
+ */
+function blank_canvas_colors() {
+	return array(
+		array( '--global--color-background', '#FFFFFF', __( 'Background Color', 'seedlet' ) ),
+		array( '--global--color-foreground', '#333333', __( 'Foreground Color', 'seedlet' ) ),
+		array( '--global--color-primary', '#000000', __( 'Primary Color', 'seedlet' ) ),
+		array( '--global--color-secondary', '#007cba', __( 'Secondary Color', 'seedlet' ) ),
+		array( '--global--color-tertiary', '#FAFAFA', __( 'Tertiary Color', 'seedlet' ) ),
+	);
+}
+add_filter( 'seedlet_colors', 'blank_canvas_colors' );
 
 /**
  * Remove Seedlet theme features.
