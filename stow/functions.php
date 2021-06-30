@@ -14,8 +14,8 @@ if ( ! function_exists( 'varia_default_colors' ) ) {
 		return array(
 			'background' => '#FFFFFF',
 			'foreground' => '#444444',
-			'primary'    => '#404040',
-			'secondary'  => '#f25f70',
+			'primary'    => '#424242',
+			'secondary'  => '#75ab88',
 			'tertiary'   => '#DDDDDD',
 		);
 	}
