@@ -157,6 +157,13 @@ function dalston_fonts_url() {
 			$font_families[] = 'Crimson Text:400,600,700,400italic,600italic';
 		}
 
+		/**
+		 * A filter to enable child themes to add/change/omit font families.
+		 * 
+		 * @param array $font_families An array of font families to be imploded for the Google Font API
+		 */
+		$font_families = apply_filters( 'included_google_font_families', $font_families );
+
 		$query_args = array(
 			'family' => urlencode( implode( '|', $font_families ) ),
 			'subset' => urlencode( 'latin,latin-ext' ),
@@ -209,7 +216,7 @@ function dalston_editor_styles() {
 add_action( 'enqueue_block_editor_assets', 'dalston_editor_styles' );
 
 /**
- * Enqueue Custom Cover Block Styles and Scripts
+ * Enqueue Custom Cover Block Scripts
  */
 function dalston_block_extends() {
 
@@ -225,11 +232,6 @@ function dalston_block_extends() {
 		array( 'wp-blocks' )
 	);
 
-	wp_enqueue_style(
-		'dalston-extend-cover-block-style',
-		get_stylesheet_directory_uri() . '/block-extends/extend-cover-block.css'
-	);
-
 	// Columns Block Tweaks
 	wp_enqueue_script(
 		'dalston-extend-columns-block',
@@ -237,16 +239,28 @@ function dalston_block_extends() {
 		array( 'wp-blocks' )
 	);
 
-	wp_enqueue_style(
-		'dalston-extend-cover-columns-style',
-		get_stylesheet_directory_uri() . '/block-extends/extend-columns-block.css'
-	);
-
-	// Columns Block Tweaks
+	// Media & Text Block Tweaks
 	wp_enqueue_script(
 		'dalston-extend-media-text-block',
 		get_stylesheet_directory_uri() . '/block-extends/extend-media-text-block.js',
 		array( 'wp-blocks' )
+	);
+}
+add_action( 'enqueue_block_editor_assets', 'dalston_block_extends' );
+
+/**
+ * Enqueue Custom Cover Block Styles
+ */
+function dalston_block_extends_styles() {
+
+	wp_enqueue_style(
+		'dalston-extend-cover-block-style',
+		get_stylesheet_directory_uri() . '/block-extends/extend-cover-block.css'
+	);
+
+	wp_enqueue_style(
+		'dalston-extend-cover-columns-style',
+		get_stylesheet_directory_uri() . '/block-extends/extend-columns-block.css'
 	);
 
 	wp_enqueue_style(
@@ -254,7 +268,7 @@ function dalston_block_extends() {
 		get_stylesheet_directory_uri() . '/block-extends/extend-media-text-block.css'
 	);
 }
-add_action( 'enqueue_block_assets', 'dalston_block_extends' );
+add_action( 'enqueue_block_assets', 'dalston_block_extends_styles' );
 
 /**
  * Whether this is an AMP endpoint.

@@ -23,6 +23,7 @@ if ( ! class_exists( 'Blank_Canvas_Customize' ) ) {
 		 */
 		public function __construct() {
 			add_action( 'customize_register', array( $this, 'register' ) );
+			add_action( 'customize_controls_enqueue_scripts', array( $this, 'enqueue_disabled_header_custom_logo_notification_script') );
 		}
 
 		/**
@@ -63,7 +64,7 @@ if ( ! class_exists( 'Blank_Canvas_Customize' ) ) {
 				'show_site_header',
 				array(
 					'label'       => esc_html__( 'Enable site header and top menu', 'blank-canvas' ),
-					'description' => esc_html__( 'Check to show a standard site header, navigation menu and social links menu on the top of every page.', 'blank-canvas' ),
+					'description' => esc_html__( 'Check to show a standard site header, navigation menu and social links menu on the top of every page. These can be configured in the "Site Identity" and "Menus" panels.', 'blank-canvas' ),
 					'section'     => 'jetpack_content_options',
 					'priority'    => 10,
 					'type'        => 'checkbox',
@@ -134,12 +135,36 @@ if ( ! class_exists( 'Blank_Canvas_Customize' ) ) {
 			$wp_customize->add_control(
 				'show_comments',
 				array(
-					'label'       => esc_html__( 'Enable comments', 'blank-canvas' ),
-					'description' => esc_html__( "Check to show comments underneath each post.", 'blank-canvas' ),
+					'label'       => esc_html__( 'Make comments visible', 'blank-canvas' ),
+					'description' => esc_html__( 'Check to show comments underneath posts and pages. Comments can be configured in your site’s Discussion settings screen.', 'blank-canvas' ),
 					'section'     => 'jetpack_content_options',
 					'priority'    => 10,
 					'type'        => 'checkbox',
 					'settings'    => 'show_comments',
+				)
+			);
+		}
+		
+		/**
+		 * Displays a notification above the custom logo control when you have set a logo,
+		 * but it's not visible since the site header is disabled.
+		 *
+		 * @access public
+		 *
+		 * @return void
+		 */
+
+		public function enqueue_disabled_header_custom_logo_notification_script() {
+			$handle = 'disabled-site-header-custom-logo-notification';
+			$src    = get_stylesheet_directory_uri() . '/assets/js/disabled-site-header-custom-logo-notification.js';
+			$deps   = array( 'customize-controls' );
+			wp_enqueue_script( $handle, $src, $deps );
+
+			wp_localize_script(
+				$handle,
+				'disabled_site_header_custom_logo_notification_translations',
+				array(
+					'custom_logo_notification_content' => __( 'Your logo will not be shown on all posts and pages. To display your logo, follow the instructions above to enable your site header.', 'blank-canvas'),
 				)
 			);
 		}

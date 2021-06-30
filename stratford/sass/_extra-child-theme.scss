@@ -250,6 +250,13 @@ a {
 	}
 }
 
+.site-footer {
+	> .social-navigation {
+		order: 2;
+		margin-bottom: 0;
+	}
+}
+
 /**
  * 5. Archive Pagination and Post Navigation
  */
@@ -504,5 +511,27 @@ html[amp] {
 		.logged-in .site-header {
 			top: 46px;
 		}
+	}
+}
+
+/**
+ * Search block
+ */
+ .wp-block-search {
+	&.wp-block-search__button-inside {
+		.wp-block-search__inside-wrapper{
+			border-radius: #{map-deep-get($config-button, "border-radius")};
+		}
+		.wp-block-search__input {
+			background: transparent;
+		}
+	}
+	.wp-block-search__input {
+		margin-right: calc( .1 * #{map-deep-get($config-button, "padding", "horizontal")} );
+		border-radius: #{map-deep-get($config-button, "border-radius")};
+	}
+
+	.wp-block-search__button {
+		background-color: #{map-deep-get($config-global, "color", "primary", "default")};
 	}
 }

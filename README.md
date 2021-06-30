@@ -46,11 +46,13 @@ By contributing code to our free themes, you grant its use under the [GNU Genera
 
 Themes code should adhere to the [WordPress coding standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/). This repo contains a pre-commit hook which enables you to detect and fix code that doesn't follow the standards.
 
-To set this uo follow these instructions:
+To set this up follow these instructions:
 1. Run `npm i` in the root of the repo.
 2. Run `composer install`
 
 Now when you commit changes to a file PHPCBF will attempt to fix any issues with the file.
+
+This will also install the [WordPress-standard Prettier Configuration](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-prettier-config/) which can (optionally) be used in your IDE or command-line to format your code via (Prettier)[https://prettier.io/docs/en/editors.html].
 
 ## Packaging for WordPress.org Themes Showcase
 

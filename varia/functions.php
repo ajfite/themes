@@ -201,10 +201,7 @@ if ( ! function_exists( 'varia_setup' ) ) :
 		$editor_colors_array = apply_filters( 'varia_editor_color_palette', $editor_colors_array );
 
 		// Editor color palette.
-		add_theme_support(
-			'editor-color-palette',
-			$editor_colors_array,
-		);
+		add_theme_support( 'editor-color-palette', $editor_colors_array );
 
 		// Add support for responsive embedded content.
 		add_theme_support( 'responsive-embeds' );
@@ -524,11 +521,6 @@ add_action( 'customize_register', 'varia_customize_content_options' );
  * SVG Icons class.
  */
 require get_template_directory() . '/classes/class-varia-svg-icons.php';
-
-/**
- * Custom Comment Walker template.
- */
-require get_template_directory() . '/classes/class-varia-walker-comment.php';
 
 /**
  * Enhance the theme by hooking into WordPress.

@@ -72,11 +72,11 @@ add_action( 'after_setup_theme', 'blank_canvas_setup', 11 );
  */
 function blank_canvas_colors() {
 	return array(
-		array( '--global--color-background', '#FFFFFF', __( 'Background Color', 'seedlet' ) ),
-		array( '--global--color-foreground', '#333333', __( 'Foreground Color', 'seedlet' ) ),
-		array( '--global--color-primary', '#000000', __( 'Primary Color', 'seedlet' ) ),
-		array( '--global--color-secondary', '#007cba', __( 'Secondary Color', 'seedlet' ) ),
-		array( '--global--color-tertiary', '#FAFAFA', __( 'Tertiary Color', 'seedlet' ) ),
+		array( '--global--color-background', '#FFFFFF', __( 'Background Color', 'blank-canvas' ) ),
+		array( '--global--color-foreground', '#333333', __( 'Foreground Color', 'blank-canvas' ) ),
+		array( '--global--color-primary', '#000000', __( 'Primary Color', 'blank-canvas' ) ),
+		array( '--global--color-secondary', '#007cba', __( 'Secondary Color', 'blank-canvas' ) ),
+		array( '--global--color-tertiary', '#FAFAFA', __( 'Tertiary Color', 'blank-canvas' ) ),
 	);
 }
 add_filter( 'seedlet_colors', 'blank_canvas_colors' );
@@ -129,8 +129,11 @@ function blank_canvas_add_customizer_settings( $wp_customize ) {
 	// Cast the widgets panel as an object.
 	$customizer_widgets_panel = (object) $wp_customize->get_panel( 'widgets' );
 
+	$content_options_link = "wp.customize.control('show_site_header').focus(); return false;";
+
 	// Add a Customizer message about the site title & tagline options.
-	$wp_customize->get_section( 'title_tagline' )->description  = __( 'The site logo, title, and tagline will only appear on single posts and pages if the “Site header and top menu" option is enabled in the Content Options section.', 'blank-canvas' );
+	// translators: %s is an action which opens the "Content Options" section of customizer
+	$wp_customize->get_section( 'title_tagline' )->description  = sprintf( __( 'The site logo, title, and tagline will only appear on all posts and pages if the "Site header and top menu" option is enabled in the <a href="#" onClick="%s">Content Options</a> section.', 'blank-canvas' ), $content_options_link );
 	$wp_customize->get_section( 'menu_locations' )->description = __( 'This theme will only display Menus if they are enabled in the Content Options section.', 'blank-canvas' );
 	$wp_customize->get_panel( 'nav_menus' )->description        = __( 'This theme will only display Menus if they are enabled in the Content Options section.', 'blank-canvas' );
 	$customizer_widgets_panel->description                      = __( 'This theme will only display Widgets if they are enabled in the Content Options section.', 'blank-canvas' );
@@ -178,14 +181,6 @@ add_action( 'wp_enqueue_scripts', 'blank_canvas_enqueue', 11 );
  * Block Patterns.
  */
 require get_stylesheet_directory() . '/inc/block-patterns.php';
-
-/**
- * Enqueue CSS for Customizer message.
- */
-function blank_canvas_customizer_enqueue() {
-	wp_enqueue_style( 'blank-canvas-customizer-style', get_stylesheet_directory_uri() . '/assets/customizer.css', array(), wp_get_theme()->get( 'Version' ) );
-}
-add_action( 'customize_controls_enqueue_scripts', 'blank_canvas_customizer_enqueue' );
 
 /**
  * Customizer additions.

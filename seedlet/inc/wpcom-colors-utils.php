@@ -13,7 +13,7 @@ function seedlet_define_color_annotations( $colors ) {
 			array( '.global--color-background', 'background-color' ),
 
 		),
-		__( 'Background Color' )
+		__( 'Background Color', 'seedlet' )
 	);
 
 	// Foreground Color
@@ -27,7 +27,7 @@ function seedlet_define_color_annotations( $colors ) {
 			array( '.global--color-foreground', 'color' ),
 
 		),
-		__( 'Foreground Color' )
+		__( 'Foreground Color', 'seedlet' )
 	);
 
 	// Primary Color
@@ -41,7 +41,7 @@ function seedlet_define_color_annotations( $colors ) {
 			array( '.global--color-primary', 'color' ),
 
 		),
-		__( 'Primary Color' )
+		__( 'Primary Color', 'seedlet' )
 	);
 
 	// Secondary Color
@@ -55,7 +55,7 @@ function seedlet_define_color_annotations( $colors ) {
 			array( '.global--color-secondary', 'color' ),
 
 		),
-		__( 'Secondary Color' )
+		__( 'Secondary Color', 'seedlet' )
 	);
 
 	// Tertiary Color
@@ -69,7 +69,7 @@ function seedlet_define_color_annotations( $colors ) {
 			array( '.global--color-tertiary', 'color' ),
 
 		),
-		__( 'Tertiary Color' )
+		__( 'Tertiary Color', 'seedlet' )
 	);
 }
 
@@ -102,19 +102,20 @@ if ( ! function_exists( 'rgb_to_hsvl' ) ) {
 		$min_rgb           = min( $r, $g, $b );
 		$chroma            = $max_rgb - $min_rgb;
 		$v                 = 100 * $max_rgb;
-		if ( 0 === $chroma ) {
+		if ( $chroma > 0) {
+			$s = 100 * ( $chroma / $max_rgb );
+			if ( $r === $min_rgb ) {
+				$h = 3 - ( ( $g - $b ) / $chroma );
+			} elseif ( $b === $min_rgb ) {
+				$h = 1 - ( ( $r - $g ) / $chroma );
+			} else { // $g === $min_rgb
+				$h = 5 - ( ( $b - $r ) / $chroma );
+			}
+			$h = 60 * $h;
+			return array( $h, $s, $v, $l );
+		} else {
 			return array( 0, 0, $v, $l );
 		}
-		$s = 100 * ( $chroma / $max_rgb );
-		if ( $r === $min_rgb ) {
-			$h = 3 - ( ( $g - $b ) / $chroma );
-		} elseif ( $b === $min_rgb ) {
-			$h = 1 - ( ( $r - $g ) / $chroma );
-		} else { // $g === $min_rgb
-			$h = 5 - ( ( $b - $r ) / $chroma );
-		}
-		$h = 60 * $h;
-		return array( $h, $s, $v, $l );
 	}
 }
 

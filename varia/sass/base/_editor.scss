@@ -26,9 +26,24 @@ a {
 	&:hover {
 		color: #{map-deep-get($config-global, "color", "primary", "hover")};
 	}
+
+	.has-primary-background-color &:not(.has-text-color) {
+		color: #{map-deep-get($config-global, "color", "background", "default")};
+	}
 }
 
 button,
 a {
 	cursor: pointer;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+	font-family: inherit;
+	font-size: 100%;
+	line-height: 1.15;
+	margin: 0;
 }

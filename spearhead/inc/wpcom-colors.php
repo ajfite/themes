@@ -1,5 +1,5 @@
 <?php
-require_once get_template_directory() . '/inc/wpcom-colors-utils.php';
+require_once __DIR__ . '/wpcom-colors-utils.php';
 
 seedlet_define_color_annotations(
 	array(
@@ -26,7 +26,7 @@ if ( ! function_exists( 'spearhead_wpcom_customize_update' ) ) :
 			'fg2'  => '#fafbf6',
 		);
 
-		if ( $default_palette === $wpcom_colors_array['colors'] ) :
+		if ( ! $wpcom_colors_array['colors'] || $default_palette === $wpcom_colors_array['colors'] ) :
 			$wp_customize->add_setting( 'color_darkmode_disable' );
 			$wp_customize->add_control(
 				'color_darkmode_disable',
@@ -40,7 +40,7 @@ if ( ! function_exists( 'spearhead_wpcom_customize_update' ) ) :
 					'section'     => 'colors_manager_tool',
 					'priority'    => 10, // Set to 10 so it appears near the top of the Colors & Backgrounds panel
 					'type'        => 'checkbox',
-					'settings'	  => 'color_darkmode_disable'
+					'settings'    => 'color_darkmode_disable',
 				)
 			);
 		endif;

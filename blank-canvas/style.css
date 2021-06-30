@@ -1,15 +1,15 @@
 /*
 Theme Name: Blank Canvas
-Theme URI: https://github.com/Automattic/themes/blank-canvas
+Theme URI: https://wordpress.com/theme/blank-canvas
 Author: Automattic
 Author URI: https://automattic.com/
 Description: Blank Canvas is a minimalist theme, designed for single-page websites. Its single post and page layouts have no header, navigation menus, or widgets by default, so the page you design in the WordPress editor is the same page you’ll see on the front end. The theme’s default styles are conservative, relying on simple sans-serif fonts and a subtle blue highlight color. Blank Canvas is ready for your customizations.
 Requires at least: 4.9.6
 Tested up to: 5.6
 Requires PHP: 5.6.2
-Version: 1.2.3
+Version: 1.2.9-wpcom
 License: GNU General Public License v2 or later
-License URI: LICENSE
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Template: seedlet
 Text Domain: blank-canvas
 Tags: one-column, accessibility-ready, custom-colors, editor-style, featured-images, rtl-language-support, sticky-post, translation-ready, auto-loading-homepage
@@ -41,6 +41,8 @@ License: CC0
 - Artsy Crafty: https://stocksnap.io/photo/colorful-pencils-NONEDF6REB
 - Austin Neill: https://stocksnap.io/photo/concert-singer-F66MXRQS1K
 - Bruce Mars: https://stocksnap.io/photo/woman-sunglasses-MO7PZ7AYIC
+- Foodie Girl: https://stocksnap.io/photo/nature-food-AUVLL0XR1V
+- One Idea LLC: https://stocksnap.io/photo/apple-watch-6EMBFCXU0J
 Used as block pattern images.
 
 Image from foodiesfeed.com
@@ -52,6 +54,22 @@ Hamburger Icon from Noto Emoji
 License: Apache License 2.0
 https://github.com/googlefonts/noto-emoji/blob/master/svg/emoji_u1f354.svg
 Modified and used as a block pattern image.
+
+Bullhorn Icon by the Consumer Financial Protection Bureau, US
+License: Public Domain
+https://thenounproject.com/term/bullhorn/89665/
+Modified and used as a block pattern image.
+
+Self-Portrait with Two Pupils, Marie Gabrielle Capet and Marie Marguerite Carreaux de Rosemond
+by Adélaïde Labille-Guiard, 1785
+License: Public Domain
+https://www.metmuseum.org/art/collection/search/436840
+Used as a block pattern image.
+
+Gradient Video
+License: CC0
+Designed by Ballio Chan for the Blank Canvas theme.
+Used as block pattern background.
 */
 
 @import "variables.css";

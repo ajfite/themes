@@ -64,6 +64,8 @@ if ( ! function_exists( 'stow_setup' ) ) :
 			)
 		);
 
+		// Add support for experimental link color via Gutenberg: https://github.com/WordPress/gutenberg/blob/master/docs/designers-developers/developers/themes/theme-support.md
+		add_theme_support( 'experimental-link-color' );
 	}
 endif;
 add_action( 'after_setup_theme', 'stow_setup', 12 );
@@ -119,6 +121,14 @@ function stow_fonts_url() {
 		if ( 'off' !== $oswald ) {
 			$font_families[] = 'Oswald:300,400';
 		}
+
+		/**
+		 * A filter to enable child themes to add/change/omit font families.
+		 * 
+		 * @param array $font_families An array of font families to be imploded for the Google Font API
+		 */
+		$font_families = apply_filters( 'included_google_font_families', $font_families );
+
 		$query_args = array(
 			'family' => urlencode( implode( '|', $font_families ) ),
 			'subset' => urlencode( 'latin,latin-ext' ),

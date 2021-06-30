@@ -246,6 +246,13 @@ function apostrophe_2_fonts_url() {
 			$font_families[] = 'Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic';
 		}
 
+		/**
+		 * A filter to enable child themes to add/change/omit font families.
+		 * 
+		 * @param array $font_families An array of font families to be imploded for the Google Font API
+		 */
+		$font_families = apply_filters( 'included_google_font_families', $font_families );
+
 		$query_args = array(
 			'family' => urlencode( implode( '|', $font_families ) ),
 			'subset' => urlencode( 'latin,latin-ext,cyrillic' ),
@@ -321,6 +328,10 @@ function apostrophe_2_body_class( $classes ) {
 
 	if ( ! is_active_sidebar( 'sidebar-1' ) && ! is_active_sidebar( 'sidebar-2' ) && ! is_active_sidebar( 'sidebar-3' ) ) {
 		$classes[] = 'apostrophe-2-no-sidebar';
+	}
+
+	if ( function_exists( 'jetpack_social_menu' ) && get_theme_mod( 'apostrophe_2_mobile_social' ) == 1 ) {
+		$classes[] = 'show-mobile-social-menu';
 	}
 
 	return $classes;

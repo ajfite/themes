@@ -64,6 +64,8 @@ if ( ! function_exists( 'rockfield_setup' ) ) :
 			)
 		);
 
+		// Add support for experimental link color via Gutenberg: https://github.com/WordPress/gutenberg/blob/master/docs/designers-developers/developers/themes/theme-support.md
+		add_theme_support( 'experimental-link-color' );
 	}
 endif;
 add_action( 'after_setup_theme', 'rockfield_setup', 12 );
@@ -107,6 +109,13 @@ function rockfield_fonts_url() {
 		if ( 'off' !== $lora ) {
 			$font_families[] = 'Lora:400,400i,700,700i';
 		}
+
+		/**
+		 * A filter to enable child themes to add/change/omit font families.
+		 * 
+		 * @param array $font_families An array of font families to be imploded for the Google Font API
+		 */
+		$font_families = apply_filters( 'included_google_font_families', $font_families );
 
 		$query_args = array(
 			'family' => urlencode( implode( '|', $font_families ) ),
